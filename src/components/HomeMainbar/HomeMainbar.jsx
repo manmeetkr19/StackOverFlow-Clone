@@ -1,9 +1,12 @@
 import React from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import './HomeMainbar.css'
 import QuestionList from './QuestionList'
 
 const HomeMainbar = () => {
+
+  const user = 1;
+  const navigate = useNavigate()
 
   var questionList = [{
     id: 1,
@@ -37,7 +40,19 @@ const HomeMainbar = () => {
   }
   ]
 
+
   const location = useLocation()
+
+  const checkAuth = () => {
+
+    if (user === null) {
+      alert("login or signup to ask question ")
+      navigate('/Auth')
+    }
+    else {
+      navigate('/AskQuestion')
+    }
+  }
 
   return (
     <div className='main-bar'>
@@ -45,7 +60,7 @@ const HomeMainbar = () => {
         {
           location.pathname === '/' ? <h1>Top Questions</h1> : <h1>All Questions</h1>
         }
-        <Link to='/AskQuestion' className='ask-btn'>Ask Question</Link>
+        <button onClick={checkAuth} className='ask-btn'>Ask Question</button>
       </div>
       <div>
         {
@@ -53,7 +68,7 @@ const HomeMainbar = () => {
             <h1>Loading...</h1> :
             <>
               <p>{questionList.length} questions</p>
-              <QuestionList questionsList={questionList}/>
+              <QuestionList questionsList={questionList} />
             </>
         }
       </div>
